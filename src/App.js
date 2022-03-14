@@ -1,7 +1,6 @@
 import React from "react"
 import Sidebar from "./components/Sidebar"
 import Editor from "./components/Editor"
-import { data } from "./data"
 import Split from "react-split"
 import {nanoid} from "nanoid"
 import "./App.css"
@@ -43,8 +42,12 @@ export default function App() {
                 return newArray
         })
     }
+
+    function deleteNote(event, noteId) {
+        event.stopPropagation()
+        setNotes(oldNotes => oldNotes.filter(note => note.id !== noteId))
     }
-    
+               
     function findCurrentNote() {
         return notes.find(note => {
             return note.id === currentNoteId
@@ -66,6 +69,7 @@ export default function App() {
                     currentNote={findCurrentNote()}
                     setCurrentNoteId={setCurrentNoteId}
                     newNote={createNewNote}
+                    deleteNote={deleteNote}
                 />
                 {
                     currentNoteId && 
