@@ -29,11 +29,20 @@ export default function App() {
     }
     
     function updateNote(text) {
-        setNotes(oldNotes => oldNotes.map(oldNote => {
-            return oldNote.id === currentNoteId
-                ? { ...oldNote, body: text }
-                : oldNote
-        }))
+        //the most recently modified note pushed to the top
+        setNotes(oldNotes => {
+            const newArray = []
+            for (let i = 0; i < oldNotes.length; i++) { //loop through all notes
+                const oldNote = oldNotes[i]
+                if (oldNote.id === currentNoteId) { //if note matches current note being edited
+                    newArray.unshift({...oldNote, body: text }) //place current note at the beginning of newArray
+                } else {
+                    newArray.push(oldNote)
+                }
+            }
+                return newArray
+        })
+    }
     }
     
     function findCurrentNote() {
